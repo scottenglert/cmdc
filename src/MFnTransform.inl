@@ -237,16 +237,8 @@ FnTransform
         }
     }, py::arg("quaternion"), py::arg("space") = MSpace::kTransform, _doc_FnTransform_rotateBy)
 
-    .def("rotateBy", [](MFnTransform & self, const py::list & rotation, MTransformationMatrix::RotationOrder order, MSpace::Space space = MSpace::kTransform) {
-        if (rotation.size() != 3)
-        {
-            throw std::invalid_argument("You must provide a list of 3 floats for rotate.");
-        }
-        double tmp[3];
-        std::transform(std::begin(rotation), std::end(rotation), std::begin(tmp),
-                [](pybind11::handle handle) -> double { return handle.cast<double>(); });
-        
-        MStatus status = self.rotateBy(tmp, order, space);
+    .def("rotateBy", [](MFnTransform & self, std::array<double, 3> rotation, MTransformationMatrix::RotationOrder order, MSpace::Space space = MSpace::kTransform) {
+        MStatus status = self.rotateBy(rotation.data(), order, space);
 
         if (! status) {
             throw std::logic_error(status.errorString().asChar());
@@ -297,16 +289,8 @@ FnTransform
         return result;
     }, _doc_FnTransform_rotationOrder)
 
-    .def("scaleBy", [](MFnTransform & self, const py::list & scale) {
-        if (scale.size() != 3)
-        {
-            throw std::invalid_argument("You must provide a list of 3 floats for scale.");
-        }
-        double tmp[3];
-        std::transform(std::begin(scale), std::end(scale), std::begin(tmp),
-                [](pybind11::handle handle) -> double { return handle.cast<double>(); });
-        
-        MStatus status = self.scaleBy(tmp);
+    .def("scaleBy", [](MFnTransform & self, std::array<double, 3> scale) {
+        MStatus status = self.scaleBy(scale.data());
 
         if (! status) {
             throw std::logic_error(status.errorString().asChar());
@@ -391,16 +375,8 @@ FnTransform
         }
     }, py::arg("quaternion"), py::arg("space") = MSpace::kTransform, _doc_FnTransform_setRotation)
 
-    .def("setRotation", [](MFnTransform & self, const py::list & rotation, MTransformationMatrix::RotationOrder order) {
-        if (rotation.size() != 3)
-        {
-            throw std::invalid_argument("You must provide a list of 3 floats for rotation.");
-        }
-        double tmp[3];
-        std::transform(std::begin(rotation), std::end(rotation), std::begin(tmp),
-                [](pybind11::handle handle) -> double { return handle.cast<double>(); });
-
-        MStatus status = self.setRotation(tmp);
+    .def("setRotation", [](MFnTransform & self, std::array<double, 3> rotation, MTransformationMatrix::RotationOrder order) {
+        MStatus status = self.setRotation(rotation.data());
 
         if (!status) {
             throw std::logic_error(status.errorString().asChar());
@@ -415,16 +391,8 @@ FnTransform
         }
     }, py::arg("order"), py::arg("reorder"), _doc_FnTransform_setRotationOrder)
 
-    .def("setScale", [](MFnTransform & self, const py::list & scale) {
-        if (scale.size() != 3)
-        {
-            throw std::invalid_argument("You must provide a list of 3 floats for scale.");
-        }
-        double tmp[3];
-        std::transform(std::begin(scale), std::end(scale), std::begin(tmp),
-                [](pybind11::handle handle) -> double { return handle.cast<double>(); });
-
-        MStatus status = self.setScale(tmp);
+    .def("setScale", [](MFnTransform & self, std::array<double, 3> scale) {
+        MStatus status = self.setScale(scale.data());
 
         if (!status) {
             throw std::logic_error(status.errorString().asChar());
@@ -447,16 +415,8 @@ FnTransform
         }
     }, py::arg("vec"), py::arg("space"), _doc_FnTransform_setScalePivotTranslation)
 
-    .def("setShear", [](MFnTransform & self, const py::list & shear) {
-        if (shear.size() != 3)
-        {
-            throw std::invalid_argument("You must provide a list of 3 floats for shear.");
-        }
-        double tmp[3];
-        std::transform(std::begin(shear), std::end(shear), std::begin(tmp),
-                [](pybind11::handle handle) -> double { return handle.cast<double>(); });
-
-        MStatus status = self.setShear(tmp);
+    .def("setShear", [](MFnTransform & self, std::array<double, 3> shear) {
+        MStatus status = self.setShear(shear.data());
 
         if (!status) {
             throw std::logic_error(status.errorString().asChar());
@@ -471,16 +431,8 @@ FnTransform
         }
     }, py::arg("vec"), py::arg("space"), _doc_FnTransform_setTranslation)
 
-    .def("shearBy", [](MFnTransform & self, const py::list & shear) {
-        if (shear.size() != 3)
-        {
-            throw std::invalid_argument("You must provide a list of 3 floats for shear.");
-        }
-        double tmp[3];
-        std::transform(std::begin(shear), std::end(shear), std::begin(tmp),
-                [](pybind11::handle handle) -> double { return handle.cast<double>(); });
-
-        MStatus status = self.shearBy(tmp);
+    .def("shearBy", [](MFnTransform & self, std::array<double, 3> shear) {
+        MStatus status = self.shearBy(shear.data());
 
         if (!status) {
             throw std::logic_error(status.errorString().asChar());
